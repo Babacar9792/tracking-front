@@ -1,0 +1,71 @@
+<div class="tracker-container">
+  <header class="tracker-header">
+    <h1>GPS Tracker</h1>
+    <span class="badge" [ngClass]="'badge--' + connectionState">
+      {{ connectionState }}
+    </span>
+  </header>
+
+  <section class="card">
+    <h2>Trajet</h2>
+    <div class="input-row">
+      <input
+        type="text"
+        [(ngModel)]="trajetId"
+        placeholder="ID du trajet"
+        [disabled]="isTracking"
+        class="input"
+      />
+      <button class="btn btn--secondary" (click)="generateId()" [disabled]="isTracking">
+        Générer
+      </button>
+    </div>
+
+    <div class="actions">
+      <button
+        class="btn btn--primary"
+        (click)="startTracking()"
+        [disabled]="isTracking || !trajetId.trim()"
+      >
+        Démarrer
+      </button>
+      <button
+        class="btn btn--danger"
+        (click)="stopTracking()"
+        [disabled]="!isTracking"
+      >
+        Arrêter
+      </button>
+    </div>
+  </section>
+
+  <section class="card" *ngIf="livePositions.length > 0">
+    <h2>Positions reçues en temps réel</h2>
+    <div class="positions-list">
+      <div class="position-item" *ngFor="let pos of livePositions">
+        <span class="pos-time">{{ pos.timestamp | date:'HH:mm:ss' }}</span>
+        <span>lat: {{ pos.latitude | number:'1.5-5' }}</span>
+        <span>lng: {{ pos.longitude | number:'1.5-5' }}</span>
+        <span *ngIf="pos.speed != null">{{ pos.speed | number:'1.1-1' }} m/s</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="log-header">
+      <h2>Logs</h2>
+      <button class="btn btn--ghost" (click)="clearLogs()" *ngIf="logs.length > 0">
+        Effacer
+      </button>
+    </div>
+    <div class="log-list" *ngIf="logs.length > 0; else noLogs">
+      <div class="log-item" [ngClass]="'log-item--' + log.type" *ngFor="let log of logs">
+        <span class="log-time">{{ log.time }}</span>
+        <span>{{ log.message }}</span>
+      </div>
+    </div>
+    <ng-template #noLogs>
+      <p class="empty">Aucun log pour le moment.</p>
+    </ng-template>
+  </section>
+</div>

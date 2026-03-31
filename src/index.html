@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>TrackingFront</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script>var global = globalThis;</script>
+  <script>
+    // Chargé en prod via docker-entrypoint.sh, ignoré en dev
+    var s = document.createElement('script');
+    s.src = 'env.js';
+    s.onerror = function() {};
+    document.head.appendChild(s);
+  </script>
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>
