@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Client, IMessage, StompSubscription } from '@stomp/stompjs';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import SockJS from "sockjs-client";
 
 export type ConnectionState = 'disconnected' | 'connecting' | 'connected' | 'error';
 
@@ -24,7 +25,7 @@ export class WebsocketService {
     this.connectionState$.next('connecting');
 
     this.client = new Client({
-      brokerURL: environment.wsUrl,
+      webSocketFactory: () => new SockJS(environment.wsUrl),
       reconnectDelay: 5000,
       onConnect: () => {
         this.connectionState$.next('connected');

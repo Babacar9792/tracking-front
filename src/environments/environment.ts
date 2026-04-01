@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  wsUrl: 'ws://localhost:8083/ws',
+  wsUrl: 'https://tracking-api.jeuffsolution.com/ws',
 };
